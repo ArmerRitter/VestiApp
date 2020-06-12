@@ -74,7 +74,7 @@ extension ParserService: XMLParserDelegate {
         }
         
         if elementName == "pubDate" {
-            self.pubDate = self.foundCharacters.removeSpacingPrefix()
+            self.pubDate = String(self.foundCharacters.removeSpacingPrefix().dropFirst(5).dropLast(9))
         }
         
         if elementName == "yandex:full-text" {

@@ -8,30 +8,57 @@
 
 import UIKit
 
+
 class NewsListViewController: UITableViewController {
 
     var viewModel: NewsListViewModelType?
-
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    }
+
+//MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        viewModel?.update.bind(listener: { [unowned self] bool in
+        setupView()
+        
+        viewModel?.retrieveNewsFlag.bind(listener: { [unowned self] bool in
             self.tableView.reloadData()
         })
-        
+    }
+
+    func setupView() {
         
         tableView.register(NewsCell.self, forCellReuseIdentifier: "cell")
         
-        let rightButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        self.title = "ВЕСТИ RU"
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0, green: 0.5843137255, blue: 0.8549019608, alpha: 1)
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        
+        let rightButton = UIBarButtonItem(title: "Филльтр", style: .plain, target: self, action: #selector(handleFilter))
+        
         
         navigationItem.rightBarButtonItem = rightButton
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        
+        tableView.addSubview(refreshControl!)
     }
-
-    @objc func add() {
-        
-        
+    
+    @objc func handleRefreshControl() {
+        viewModel?.getNews()
+        refreshControl?.endRefreshing()
+    }
+    
+    @objc func handleFilter() {
+//        let viewModel = NewsFilterViewModel()
+//        let vc = NewsFilterViewController(viewModel: viewModel)
+//        navigationController?.pushViewController(vc, animated: true)
+        viewModel?.onSelectFilter?()
     }
     
     init(viewModel: NewsListViewModelType) {

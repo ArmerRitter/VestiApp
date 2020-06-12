@@ -11,7 +11,8 @@ import Foundation
 
 protocol NewsListViewModelType: class {
     
-    var update: Box<Bool> { get set }
+    var retrieveNewsFlag: Box<Bool> { get set }
+    var onSelectFilter: (() -> Void)? { get set }
     func numberOfItems() -> Int
     func cellViewModel(forIndexPath indexPath: IndexPath) -> NewsCellViewModelType?
     func getNews()
@@ -25,7 +26,8 @@ class NewsListViewModel: NewsListViewModelType {
     var newsList = [News]()
     var networkService: NetworkServiceProtocol
     
-    var update: Box<Bool> = Box(false)
+    var retrieveNewsFlag: Box<Bool> = Box(false)
+    var onSelectFilter: (() -> Void)?
     
     func numberOfItems() -> Int {
         return newsList.count
@@ -52,7 +54,12 @@ class NewsListViewModel: NewsListViewModelType {
                     guard let newsList = newsList else { return }
                 
                     self.newsList = newsList
-                    self.update.value.toggle()
+                    self.retrieveNewsFlag.value.toggle()
+                    
+                  
+//                   for i in newsList {
+//                       print(i.category)
+//                    }
                 }
                 
             }
