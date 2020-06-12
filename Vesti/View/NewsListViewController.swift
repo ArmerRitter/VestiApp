@@ -15,8 +15,24 @@ class NewsListViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        viewModel?.getNews()
+        viewModel?.filterdResultIsNullFlag = false
     }
-
+    
+    let footerTableView: UIView = {
+       var view = UIView()
+       return view
+    }()
+    
+    let messageLabel: UILabel = {
+    var label = UILabel(frame: CGRect(x: 0, y: 50, width: UIScreen.main.bounds.width, height: 60))
+        label.text = "Ничего не найдено\n выберите другую категорию"
+        label.textColor = .gray
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        return label
+    }()
+    
 //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +40,12 @@ class NewsListViewController: UITableViewController {
         
         setupView()
         
-        viewModel?.retrieveNewsFlag.bind(listener: { [unowned self] bool in
+        viewModel?.updateNewsFlag.bind(listener: { [unowned self] bool in
             self.tableView.reloadData()
         })
     }
 
     func setupView() {
-        
-        tableView.register(NewsCell.self, forCellReuseIdentifier: "cell")
         
         self.title = "ВЕСТИ RU"
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0, green: 0.5843137255, blue: 0.8549019608, alpha: 1)
@@ -40,12 +54,14 @@ class NewsListViewController: UITableViewController {
         
         let rightButton = UIBarButtonItem(title: "Филльтр", style: .plain, target: self, action: #selector(handleFilter))
         
-        
         navigationItem.rightBarButtonItem = rightButton
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
+        tableView.register(NewsCell.self, forCellReuseIdentifier: "cell")
+        footerTableView.addSubview(messageLabel)
+        tableView.tableFooterView = footerTableView
         tableView.addSubview(refreshControl!)
     }
     
@@ -55,9 +71,6 @@ class NewsListViewController: UITableViewController {
     }
     
     @objc func handleFilter() {
-//        let viewModel = NewsFilterViewModel()
-//        let vc = NewsFilterViewController(viewModel: viewModel)
-//        navigationController?.pushViewController(vc, animated: true)
         viewModel?.onSelectFilter?()
     }
     
@@ -75,7 +88,16 @@ class NewsListViewController: UITableViewController {
 extension NewsListViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.numberOfItems() ?? 0
+        
+        let numberOfItems = viewModel?.numberOfItems() ?? 0
+        
+        if numberOfItems == 0 {
+            messageLabel.isHidden = false
+        } else {
+            messageLabel.isHidden = true
+        }
+        
+        return numberOfItems
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -21,9 +21,11 @@ final class Coordinator {
     
     func showNewsListScreen() {
         let viewModel = NewsListViewModel(networkService: NetworkService())
+        
         viewModel.onSelectFilter = { [weak self] in
             self?.showNewsFilterScreen()
         }
+        
         let controller = NewsListViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(controller, animated: true)
         
@@ -31,9 +33,16 @@ final class Coordinator {
     
     func showNewsFilterScreen() {
         let viewModel = NewsFilterViewModel()
+        
+        viewModel.onBackScreen = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
         let controller = NewsFilterViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(controller, animated: true)
     }
+    
+    
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController

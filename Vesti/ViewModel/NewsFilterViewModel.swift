@@ -10,8 +10,11 @@ import Foundation
 
 
 protocol NewsFilterViewModelType {
+    
+    var onBackScreen: (() -> Void)? { get set }
+    var selectedCategories: [String] { get }
     func numberOfItems() -> Int
-    func getCategories() -> [String]
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> CategoryCellViewModelType?
 }
 
 
@@ -20,14 +23,27 @@ class NewsFilterViewModel: NewsFilterViewModelType {
     
     var categories = ["75 лет Победы","Авто","В мире","Культура","Оборона и безопасность","Общество","Политика","Происшествия","Спорт","Экономика","Hi-Tech"]
     
+    var selectedCategories: [String] {
+        return UserDefaults.standard.value(forKey: "selectedCategories") as? [String] ?? [String()]
+    }
+    
+    
+    var onBackScreen: (() -> Void)?
     
     func numberOfItems() -> Int {
         return categories.count
     }
     
-    func getCategories() -> [String] {
-        return categories
-    }
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> CategoryCellViewModelType? {
+       
+        let category = categories[indexPath.row]
+        
+        let isSelected = selectedCategories.contains(category) ? true : false
+        
+        let cellViewModel = CategoryCellViewModel(category: category, isSelected: isSelected)
     
+        
+        return cellViewModel
+    }
     
 }

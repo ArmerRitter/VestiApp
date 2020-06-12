@@ -11,6 +11,8 @@
 		B04D24EF24927CA2001FE46E /* NewsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D24EE24927CA2001FE46E /* NewsFilterViewController.swift */; };
 		B04D24F12492A313001FE46E /* NewsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D24F02492A313001FE46E /* NewsFilterViewModel.swift */; };
 		B04D47B524937CA900DD1433 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D47B424937CA900DD1433 /* Coordinator.swift */; };
+		B04D47B72493AF2700DD1433 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D47B62493AF2700DD1433 /* CategoryCell.swift */; };
+		B04D47B92493AF8E00DD1433 /* CaetegoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04D47B82493AF8D00DD1433 /* CaetegoryCellViewModel.swift */; };
 		B04E5FFE2492175B00CE881E /* NewsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04E5FFD2492175B00CE881E /* NewsCellViewModel.swift */; };
 		B0539B8D24900054006C107E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0539B8C24900054006C107E /* AppDelegate.swift */; };
 		B0539B8F24900054006C107E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0539B8E24900054006C107E /* SceneDelegate.swift */; };
@@ -31,6 +33,8 @@
 		B04D24EE24927CA2001FE46E /* NewsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFilterViewController.swift; sourceTree = "<group>"; };
 		B04D24F02492A313001FE46E /* NewsFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFilterViewModel.swift; sourceTree = "<group>"; };
 		B04D47B424937CA900DD1433 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		B04D47B62493AF2700DD1433 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		B04D47B82493AF8D00DD1433 /* CaetegoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaetegoryCellViewModel.swift; sourceTree = "<group>"; };
 		B04E5FFD2492175B00CE881E /* NewsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellViewModel.swift; sourceTree = "<group>"; };
 		B0539B8924900054006C107E /* Vesti.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vesti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0539B8C24900054006C107E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,8 +102,9 @@
 			isa = PBXGroup;
 			children = (
 				B0539B9024900054006C107E /* NewsListViewController.swift */,
-				B0539BA0249015FF006C107E /* NewsCell.swift */,
 				B04D24EE24927CA2001FE46E /* NewsFilterViewController.swift */,
+				B0539BA0249015FF006C107E /* NewsCell.swift */,
+				B04D47B62493AF2700DD1433 /* CategoryCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -117,8 +122,9 @@
 			isa = PBXGroup;
 			children = (
 				B07761C62490BFC6008B45AC /* NewsListViewModel.swift */,
-				B04E5FFD2492175B00CE881E /* NewsCellViewModel.swift */,
 				B04D24F02492A313001FE46E /* NewsFilterViewModel.swift */,
+				B04E5FFD2492175B00CE881E /* NewsCellViewModel.swift */,
+				B04D47B82493AF8D00DD1433 /* CaetegoryCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -209,6 +215,7 @@
 				B0539B8D24900054006C107E /* AppDelegate.swift in Sources */,
 				B04D24F12492A313001FE46E /* NewsFilterViewModel.swift in Sources */,
 				B07761C72490BFC6008B45AC /* NewsListViewModel.swift in Sources */,
+				B04D47B92493AF8E00DD1433 /* CaetegoryCellViewModel.swift in Sources */,
 				B04D47B524937CA900DD1433 /* Coordinator.swift in Sources */,
 				B027E7CD24916846009F7BEC /* Extensions.swift in Sources */,
 				B07761C32490BE4E008B45AC /* News.swift in Sources */,
@@ -217,6 +224,7 @@
 				B04D24EF24927CA2001FE46E /* NewsFilterViewController.swift in Sources */,
 				B04E5FFE2492175B00CE881E /* NewsCellViewModel.swift in Sources */,
 				B07761CF2490D26F008B45AC /* ParserService.swift in Sources */,
+				B04D47B72493AF2700DD1433 /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

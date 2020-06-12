@@ -11,34 +11,34 @@ import UIKit
 
 class NewsFilterViewController: UITableViewController {
     
-    
-    let headerTableView: UIView = {
-       var view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 60))
-       return view
-    }()
-    
-    
-    
-    
-    var categories: [String]!
+    var selectedCategories = [String]()
     var viewModel: NewsFilterViewModelType?
     
 //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        categories = viewModel?.getCategories()
-        
+
         self.title = "Фильтр"
         
+        let backButton = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(handleBackward))
+        navigationItem.leftBarButtonItem = backButton
         
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CategoryCell.self, forCellReuseIdentifier: "cell")
         tableView.tableFooterView = UIView()
         
     }
     
-  
+    @objc func handleBackward() {
+        let cells = tableView.visibleCells
+        
+        for cell in cells {
+            if cell.accessoryType == .checkmark {
+                selectedCategories.append((cell.textLabel?.text)!)
+            }
+        }
+        UserDefaults.standard.set(selectedCategories, forKey: "selectedCategories")
+        viewModel?.onBackScreen?()
+    }
     
     init(viewModel: NewsFilterViewModelType) {
         super.init(nibName: nil, bundle: nil)
@@ -64,7 +64,6 @@ extension NewsFilterViewController {
         } else {
             cell?.accessoryType = .none
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,13 +88,18 @@ extension NewsFilterViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.selectionStyle = .none
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CategoryCell
         
-        let category = categories[indexPath.row]
-        cell.textLabel?.text = category
+        guard let tableViewCell = cell, let viewModel = viewModel else {
+            return UITableViewCell()
+        }
+        tableViewCell.selectionStyle = .none
         
-        return cell
+        let cellViewModel = viewModel.cellViewModel(forIndexPath: indexPath)
+        
+        tableViewCell.viewModel = cellViewModel
+        
+        return tableViewCell
     }
     
 }
