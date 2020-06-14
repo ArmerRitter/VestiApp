@@ -14,36 +14,44 @@ protocol NetworkServiceProtocol {
     func getImage(url: String, completion: @escaping (Result<UIImage?,Error>) -> Void)
 }
 
+enum NetworkingError: String, Error {
+    case urlError = "url could not be configured"
+}
+
 class NetworkService: NetworkServiceProtocol {
     
-    
+  //fetching News data
     func getNews(completion: @escaping (Result<[News]?, Error>) -> Void) {
         
-        guard let rssURL = URL(string: "https://www.vesti.ru/vesti.rss")
-        else { fatalError("url could not be configured") }
+        guard let rssURL = URL(string: "http://www.vesti.ru/vesti.rss")
+            else { fatalError(NetworkingError.urlError.rawValue) }
         
-        URLSession.shared.dataTask(with: rssURL) { (data: Data?, response, error) in
+        let configuration = URLSessionConfiguration.default
+        configuration.httpCookieStorage = nil
+        configuration.requestCachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
+        
+        URLSession(configuration: configuration).dataTask(with: rssURL) { (data: Data?, response, error) in
             
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
-             guard let data = data, let content = String(data: data, encoding: .utf8) else { return }
+             guard let data = data else { return }
             
             let news = ParserService().parse(data: data)
             completion(.success(news))
-            print(content)
+           
             
         }.resume()
         
     }
     
+ //fetching Image
     func getImage(url: String, completion: @escaping (Result<UIImage?,Error>) -> Void) {
          
          guard let imageURL = URL(string: url) else {
-            let error = errorT.Err
-            completion(.failure(error))
+            completion(.failure(NetworkingError.urlError))
             return
          }
     
@@ -64,6 +72,4 @@ class NetworkService: NetworkServiceProtocol {
     
 }
 
-enum errorT: String, Error {
-    case Err = "ete"
-}
+

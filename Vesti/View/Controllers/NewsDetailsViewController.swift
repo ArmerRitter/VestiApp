@@ -10,7 +10,8 @@ import UIKit
 
 
 class NewsDetailsViewController: UIViewController {
-    
+
+//MARK: Properties
     var viewModel: NewsDetailsViewModelType?
     
     let newsScrollView: UIScrollView = {
@@ -43,6 +44,7 @@ class NewsDetailsViewController: UIViewController {
         return label
     }()
     
+//MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +54,7 @@ class NewsDetailsViewController: UIViewController {
        view.backgroundColor = .white
     }
     
+//MARK: Functions
     func setupBinding() {
         viewModel?.newsImage.bind(listener: { [unowned self] image in
             self.newsImageView.image = image
@@ -64,37 +67,28 @@ class NewsDetailsViewController: UIViewController {
         viewModel?.newsText.bind(listener: { [unowned self] text in
             self.newsText.text = text
         })
+        
+        viewModel?.newsCategory.bind(listener: { [unowned self] category in
+            self.title = category
+        })
     }
     
     func setupView() {
         
-        navigationController?.navigationItem.backBarButtonItem?.title = ""
-     
+      let backButton = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(handleBackward))
+      navigationItem.leftBarButtonItem = backButton
+       
+        
     view.addSubview(newsScrollView)
     newsScrollView.addSubview(newsImageView)
     newsScrollView.addSubview(newsTitle)
     newsScrollView.addSubview(newsText)
-//
-//     let stackView = UIStackView(arrangedSubviews: [newsImageView,newsTitle,newsText])
-//        stackView.axis = .vertical
-//        stackView.distribution = .fillProportionally
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        view.addSubview(stackView)
+
     
     newsScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     newsScrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
     newsScrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     newsScrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
-        
-//        scroll.isScrollEnabled = true
-//        scroll.contentSize = CGSize(width: 600, height: 2000)
-//
-//        stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//        stackView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        stackView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-//        stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
      
     newsImageView.topAnchor.constraint(equalTo: newsScrollView.topAnchor, constant: 20).isActive = true
     newsImageView.leftAnchor.constraint(equalTo: newsScrollView.leftAnchor, constant: 20).isActive = true
@@ -109,10 +103,14 @@ class NewsDetailsViewController: UIViewController {
     newsText.topAnchor.constraint(equalTo: newsTitle.bottomAnchor, constant:  20).isActive = true
     newsText.leftAnchor.constraint(equalTo: newsScrollView.leftAnchor, constant: 20).isActive = true
     newsText.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -40).isActive = true
-    //newsText.heightAnchor.constraint(equalToConstant: 2000).isActive = true
      newsText.bottomAnchor.constraint(equalTo: newsScrollView.bottomAnchor, constant: -80).isActive = true
    }
     
+    @objc func handleBackward() {
+        viewModel?.onBackScreen?()
+    }
+    
+//MARK: Initialization
     init(viewModel: NewsDetailsViewModelType) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -124,16 +122,3 @@ class NewsDetailsViewController: UIViewController {
     
 }
 
-//extension NewsDetailsViewController {
-//
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return 3
-//    }
-//
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//
-//        return cell
-//    }
-//
-//}

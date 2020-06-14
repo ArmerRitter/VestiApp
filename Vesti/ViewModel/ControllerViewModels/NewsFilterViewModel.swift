@@ -11,7 +11,7 @@ import Foundation
 
 protocol NewsFilterViewModelType {
     
-    var onBackScreen: (() -> Void)? { get set }
+    var onBackScreen: (() -> Void)? { get }
     var selectedCategories: [String] { get }
     func numberOfItems() -> Int
     func cellViewModel(forIndexPath indexPath: IndexPath) -> CategoryCellViewModelType?

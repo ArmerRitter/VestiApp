@@ -12,6 +12,8 @@ protocol NewsDetailsViewModelType {
     var newsImage: Box<UIImage?> { get set }
     var newsTitle: Box<String> { get }
     var newsText: Box<String> { get }
+    var newsCategory: Box<String> { get }
+    var onBackScreen: (() -> Void)? { get }
     func getImage(imageURL: String)
     init(news: News, networkService: NetworkServiceProtocol)
 }
@@ -31,6 +33,12 @@ class NewsDetailsViewModel: NewsDetailsViewModelType {
     var newsText: Box<String> {
         return Box(news.fullText)
     }
+    
+    var newsCategory: Box<String> {
+        return Box(news.category)
+    }
+    
+    var onBackScreen: (() -> Void)?
     
     func getImage(imageURL: String) {
         networkService.getImage(url: imageURL) { result in

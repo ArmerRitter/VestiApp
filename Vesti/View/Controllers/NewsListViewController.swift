@@ -11,20 +11,15 @@ import UIKit
 
 class NewsListViewController: UITableViewController {
 
+//MARK: Properties
     var viewModel: NewsListViewModelType?
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        viewModel?.getNews()
-        viewModel?.filterdResultIsNullFlag = false
-    }
     
     let footerTableView: UIView = {
        var view = UIView()
        return view
     }()
     
-    let messageLabel: UILabel = {
+    let filterMessageLabel: UILabel = {
     var label = UILabel(frame: CGRect(x: 0, y: 50, width: UIScreen.main.bounds.width, height: 60))
         label.text = "Ничего не найдено\n выберите другую категорию"
         label.textColor = .gray
@@ -32,6 +27,13 @@ class NewsListViewController: UITableViewController {
         label.numberOfLines = 2
         return label
     }()
+
+//MARK: ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        viewModel?.filterNews()
+        viewModel?.filterdResultIsNullFlag = false
+    }
     
 //MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -45,6 +47,7 @@ class NewsListViewController: UITableViewController {
         })
     }
 
+//MARK: Functions
     func setupView() {
         
         self.title = "ВЕСТИ RU"
@@ -59,8 +62,8 @@ class NewsListViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
-        tableView.register(NewsCell.self, forCellReuseIdentifier: "cell")
-        footerTableView.addSubview(messageLabel)
+        tableView.register(NewsCell.self, forCellReuseIdentifier: "NewsCell")
+        footerTableView.addSubview(filterMessageLabel)
         tableView.tableFooterView = footerTableView
         tableView.addSubview(refreshControl!)
     }
@@ -74,6 +77,7 @@ class NewsListViewController: UITableViewController {
         viewModel?.onSelectFilter?()
     }
     
+//MARK: Initialization
     init(viewModel: NewsListViewModelType) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -85,6 +89,7 @@ class NewsListViewController: UITableViewController {
     
 }
 
+//MARK: TablewViewDelegate & DataSource
 extension NewsListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -105,9 +110,9 @@ extension NewsListViewController {
         let numberOfItems = viewModel?.numberOfItems() ?? 0
         
         if numberOfItems == 0 {
-            messageLabel.isHidden = false
+            filterMessageLabel.isHidden = false
         } else {
-            messageLabel.isHidden = true
+            filterMessageLabel.isHidden = true
         }
         
         return numberOfItems
@@ -118,7 +123,7 @@ extension NewsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? NewsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsCell
         
         guard let tableViewCell = cell, let viewModel = viewModel else {
             return UITableViewCell()

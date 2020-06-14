@@ -10,7 +10,8 @@ import UIKit
 
 
 class NewsFilterViewController: UITableViewController {
-    
+ 
+//MARK: Properties
     var selectedCategories = [String]()
     var viewModel: NewsFilterViewModelType?
     
@@ -18,14 +19,23 @@ class NewsFilterViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupView()
+    }
+    
+//MARK: Functions
+    func setupView() {
         self.title = "Фильтр"
         
         let backButton = UIBarButtonItem(title: "Назад", style: .plain, target: self, action: #selector(handleBackward))
         navigationItem.leftBarButtonItem = backButton
         
-        tableView.register(CategoryCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CategoryCell.self, forCellReuseIdentifier: "CategoryCell")
         tableView.tableFooterView = UIView()
-        
+    }
+    
+    @objc func resetSellected() {
+        selectedCategories = [String()]
+        tableView.reloadData()
     }
     
     @objc func handleBackward() {
@@ -40,6 +50,7 @@ class NewsFilterViewController: UITableViewController {
         viewModel?.onBackScreen?()
     }
     
+//MARK: Initialization
     init(viewModel: NewsFilterViewModelType) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -53,6 +64,7 @@ class NewsFilterViewController: UITableViewController {
 }
 
 
+//MARK: TablewViewDelegate & DataSource
 extension NewsFilterViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -64,6 +76,7 @@ extension NewsFilterViewController {
         } else {
             cell?.accessoryType = .none
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -88,7 +101,7 @@ extension NewsFilterViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CategoryCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as? CategoryCell
         
         guard let tableViewCell = cell, let viewModel = viewModel else {
             return UITableViewCell()

@@ -10,7 +10,7 @@ import UIKit
 
 class CategoryCell: UITableViewCell {
 
-    weak var viewModel: CategoryCellViewModelType? {
+ weak var viewModel: CategoryCellViewModelType? {
         willSet(viewModel) {
             guard let viewModel = viewModel else { return }
             

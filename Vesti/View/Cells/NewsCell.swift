@@ -10,7 +10,7 @@ import UIKit
 
 class NewsCell: UITableViewCell {
 
-    weak var viewModel: NewsCellViewModelType? {
+  weak var viewModel: NewsCellViewModelType? {
         willSet(viewModel) {
             guard let viewModel = viewModel else { return }
             

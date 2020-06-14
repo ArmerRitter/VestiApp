@@ -67,6 +67,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B0341F6A2496B7C600D3FD94 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B04D47B424937CA900DD1433 /* Coordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		B0521BB524953FBF006CDC81 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,12 +138,12 @@
 				B0539B9724900057006C107E /* LaunchScreen.storyboard */,
 				B0341F682496091C00D3FD94 /* Assets.xcassets */,
 				B0539B9A24900057006C107E /* Info.plist */,
+				B0341F6A2496B7C600D3FD94 /* Coordinator */,
 				B07761C52490BECF008B45AC /* Model */,
 				B07761C42490BEC0008B45AC /* View */,
 				B07761C82490BFCF008B45AC /* ViewModel */,
 				B07761CD2490C142008B45AC /* Services */,
 				B027E7CC24916846009F7BEC /* Extensions.swift */,
-				B04D47B424937CA900DD1433 /* Coordinator.swift */,
 			);
 			path = Vesti;
 			sourceTree = "<group>";

@@ -30,12 +30,10 @@ class ParserService: NSObject {
         return newsList
     }
     
-   
-    
 }
 
+
 extension ParserService: XMLParserDelegate {
-   
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         

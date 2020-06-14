@@ -11,15 +11,16 @@ import Foundation
 
 protocol NewsListViewModelType: class {
     
-    var newsList: [News] { get set }
-    var filtredNewsList: [News] { get set }
+    var newsList: [News] { get }
+    var filtredNewsList: [News] { get }
     var filterdResultIsNullFlag: Bool { get set }
     var updateNewsFlag: Box<Bool> { get set }
-    var onSelectFilter: (() -> Void)? { get set }
-    var onSelectNewsDetails: ((News) -> Void)? { get set }
+    var onSelectFilter: (() -> Void)? { get }
+    var onSelectNewsDetails: ((News) -> Void)? { get }
     func numberOfItems() -> Int
     func cellViewModel(forIndexPath indexPath: IndexPath) -> NewsCellViewModelType?
     func getNews()
+    func filterNews()
     init(networkService: NetworkServiceProtocol)
 }
 
@@ -54,7 +55,7 @@ class NewsListViewModel: NewsListViewModelType {
         if filtredNewsList.isEmpty && !categories.isEmpty {
            filterdResultIsNullFlag = true
         }
-        
+        updateNewsFlag.value.toggle()
     }
     
     func cellViewModel(forIndexPath indexPath: IndexPath) -> NewsCellViewModelType? {
@@ -87,10 +88,6 @@ class NewsListViewModel: NewsListViewModelType {
                     self.filterNews()
                     self.updateNewsFlag.value.toggle()
                     
-               //   print(newsList)
-//                   for i in newsList {
-//                       print(i.category)
-//                    }
                 }
                 
             }
@@ -99,6 +96,7 @@ class NewsListViewModel: NewsListViewModelType {
     
     required init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
+        getNews()
     }
     
 }

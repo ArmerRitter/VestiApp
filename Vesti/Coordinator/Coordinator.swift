@@ -48,6 +48,11 @@ final class Coordinator {
     
     func shoeNewsDetailsScreen(news: News) {
         let viewModel = NewsDetailsViewModel(news: news, networkService: NetworkService())
+        
+        viewModel.onBackScreen = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
         let controller = NewsDetailsViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(controller, animated: true)
     }

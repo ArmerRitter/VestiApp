@@ -21,8 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     
         let win = UIWindow(windowScene: winScene)
-//               let viewModel = NewsListViewModel(networkService: NetworkService())
-//               let vc = NewsListViewController(viewModel: viewModel)
+
         win.rootViewController =  UINavigationController()
         win.makeKeyAndVisible()
         window = win
