@@ -35,6 +35,7 @@ class NewsListViewController: UITableViewController {
         
         guard let viewModel = viewModel else { return }
         
+        viewModel.filterdResultIsNullFlag = false
         viewModel.filterNews()
         
         if viewModel.filterdResultIsNullFlag {

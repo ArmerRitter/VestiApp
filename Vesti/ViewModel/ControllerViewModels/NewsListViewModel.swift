@@ -39,6 +39,11 @@ class NewsListViewModel: NewsListViewModelType {
     var onSelectFilter: (() -> Void)?
     var onSelectNewsDetails: ((News) -> Void)?
     
+    //Selected categories in filter
+    var selectedCategories: [String]? {
+    return UserDefaults.standard.value(forKey: "selectedCategories") as? [String] ?? nil
+    }
+    
     func numberOfItems() -> Int {
         if filterdResultIsNullFlag {
             return 0
@@ -48,11 +53,16 @@ class NewsListViewModel: NewsListViewModelType {
     }
     
     func filterNews() {
-        let categories = UserDefaults.standard.value(forKey: "selectedCategories") as? [String] ?? [String()]
         
-        filtredNewsList = newsList.filter { categories.contains($0.category) }
+        guard let selectedCategories = selectedCategories,       selectedCategories.count > 0 else {
+            filtredNewsList = [News]()
+            updateNewsFlag.value.toggle()
+            return
+        }
         
-        if filtredNewsList.isEmpty && !categories.isEmpty {
+        filtredNewsList = newsList.filter { selectedCategories.contains($0.category) }
+        
+        if filtredNewsList.isEmpty {
            filterdResultIsNullFlag = true
         }
         updateNewsFlag.value.toggle()

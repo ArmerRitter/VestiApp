@@ -23,7 +23,6 @@ final class Coordinator {
         let viewModel = NewsListViewModel(networkService: NetworkService())
         
         viewModel.onSelectFilter = { [weak self] in
-            viewModel.filterdResultIsNullFlag = false
             self?.showNewsFilterScreen()
         }
         
