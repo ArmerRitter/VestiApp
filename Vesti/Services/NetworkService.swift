@@ -6,11 +6,12 @@
 //  Copyright © 2020 None. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 protocol NetworkServiceProtocol {
     func getNews(completion: @escaping (Result<[News]?,Error>) -> Void)
+    func getImage(url: String, completion: @escaping (Result<UIImage?,Error>) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol {
@@ -32,13 +33,37 @@ class NetworkService: NetworkServiceProtocol {
             
             let news = ParserService().parse(data: data)
             completion(.success(news))
-            
+            print(content)
             
         }.resume()
         
     }
     
+    func getImage(url: String, completion: @escaping (Result<UIImage?,Error>) -> Void) {
+         
+         guard let imageURL = URL(string: url) else {
+            let error = errorT.Err
+            completion(.failure(error))
+            return
+         }
+    
+         URLSession.shared.dataTask(with: imageURL)  { (data: Data?, response, error) in
+                  
+                 if let error = error {
+                     completion(.failure(error))
+                     return
+                 }
+            
+                 guard let data = data, let image = UIImage(data: data) else { return }
+                     
+                 completion(.success(image))
+                     
+                 }.resume()
+     }
     
     
-    
+}
+
+enum errorT: String, Error {
+    case Err = "ete"
 }

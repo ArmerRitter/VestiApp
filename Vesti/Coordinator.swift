@@ -26,6 +26,10 @@ final class Coordinator {
             self?.showNewsFilterScreen()
         }
         
+        viewModel.onSelectNewsDetails = { [weak self] news in
+            self?.shoeNewsDetailsScreen(news: news)
+        }
+        
         let controller = NewsListViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(controller, animated: true)
         
@@ -42,6 +46,11 @@ final class Coordinator {
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
+    func shoeNewsDetailsScreen(news: News) {
+        let viewModel = NewsDetailsViewModel(news: news, networkService: NetworkService())
+        let controller = NewsDetailsViewController(viewModel: viewModel)
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
     
     
     init(navigationController: UINavigationController) {

@@ -87,6 +87,19 @@ class NewsListViewController: UITableViewController {
 
 extension NewsListViewController {
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let viewModel = viewModel else { return }
+        
+        if viewModel.filtredNewsList.isEmpty {
+            let news = viewModel.newsList[indexPath.row]
+            viewModel.onSelectNewsDetails?(news)
+        } else {
+            let news = viewModel.filtredNewsList[indexPath.row]
+            viewModel.onSelectNewsDetails?(news)
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let numberOfItems = viewModel?.numberOfItems() ?? 0

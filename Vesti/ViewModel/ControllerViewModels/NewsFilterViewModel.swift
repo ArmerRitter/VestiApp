@@ -21,7 +21,7 @@ protocol NewsFilterViewModelType {
 class NewsFilterViewModel: NewsFilterViewModelType {
     
     
-    var categories = ["75 лет Победы","Авто","В мире","Культура","Оборона и безопасность","Общество","Политика","Происшествия","Спорт","Экономика","Hi-Tech"]
+    var categories = ["75 лет Победы","Авто","В мире","Культура","Медицина","Оборона и безопасность","Общество","Политика","Происшествия","Спорт","Экономика","Hi-Tech"]
     
     var selectedCategories: [String] {
         return UserDefaults.standard.value(forKey: "selectedCategories") as? [String] ?? [String()]

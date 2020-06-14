@@ -23,7 +23,8 @@ class NewsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        self.textLabel?.numberOfLines = 4
+        self.textLabel?.numberOfLines = 0
+        self.textLabel?.lineBreakMode = .byWordWrapping
         self.detailTextLabel?.textColor = .gray
     }
 

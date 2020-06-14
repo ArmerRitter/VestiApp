@@ -17,14 +17,8 @@ protocol CategoryCellViewModelType: class {
 
 class CategoryCellViewModel: CategoryCellViewModelType {
    
-    
-   
-   
     var category: String
-    
     var isSelected: Bool
-    
-    
     
     init(category: String, isSelected: Bool) {
         self.category = category
