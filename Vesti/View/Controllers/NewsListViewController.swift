@@ -23,6 +23,7 @@ class NewsListViewController: UITableViewController {
     var label = UILabel(frame: CGRect(x: 0, y: 50, width: UIScreen.main.bounds.width, height: 60))
         label.text = "Ничего не найдено\n выберите другую категорию"
         label.textColor = .gray
+        label.isHidden = true
         label.textAlignment = .center
         label.numberOfLines = 2
         return label
@@ -31,8 +32,16 @@ class NewsListViewController: UITableViewController {
 //MARK: ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        viewModel?.filterNews()
-        viewModel?.filterdResultIsNullFlag = false
+        
+        guard let viewModel = viewModel else { return }
+        
+        viewModel.filterNews()
+        
+        if viewModel.filterdResultIsNullFlag {
+            filterMessageLabel.isHidden = false
+        } else {
+            filterMessageLabel.isHidden = true
+        }
     }
     
 //MARK: ViewDidLoad
@@ -106,16 +115,7 @@ extension NewsListViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        let numberOfItems = viewModel?.numberOfItems() ?? 0
-        
-        if numberOfItems == 0 {
-            filterMessageLabel.isHidden = false
-        } else {
-            filterMessageLabel.isHidden = true
-        }
-        
-        return numberOfItems
+        return viewModel?.numberOfItems() ?? 0
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
